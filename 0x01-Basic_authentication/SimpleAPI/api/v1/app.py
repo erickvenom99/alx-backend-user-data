@@ -28,8 +28,16 @@ def not_found(error) -> str:
     """
     return jsonify({"error": "Not found"}), 404
 
+@app.errorhandler(403)
+def forbidden_data(error)  -> str:
+    """
+    403 forbidden error handler
+    """
+    res = jsonify({"error": "Forbidden"})
+    res.status_code = 403
+    return res
 
-
+    
 if __name__ == "__main__":
     host = getenv("API_HOST", "0.0.0.0")
     port = getenv("API_PORT", "5000")
