@@ -28,10 +28,9 @@ def before_request():
     if auth is None:
         return
 
-
     secure_paths = ['/api/v1/status/',
-                      '/api/v1/unauthorized/',
-                      '/api/v1/forbidden/']
+                    '/api/v1/unauthorized/',
+                    '/api/v1/forbidden/']
     if auth.require.auth(request.path, secure_paths):
         return
 
