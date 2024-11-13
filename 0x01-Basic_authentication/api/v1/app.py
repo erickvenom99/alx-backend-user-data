@@ -57,7 +57,7 @@ def not_found(error) -> str:
 
 
 @app.errorhandler(403)
-def forbidden_data(error) -> str:
+def forbidden_data(error):
     """
     403 forbidden error handler
     """
