@@ -31,7 +31,7 @@ def unauthorized_handler():
     """
       unauthorized route
     """
-    abort(401)
+    return abort(401)
 
 
 @app_views.route('/api/v1/forbidden', methods=['GET'])
@@ -39,4 +39,4 @@ def forbidden_error():
     """
     Raises a 403 Forbidden error
     """
-    abort(403)
+    return abort(403)
