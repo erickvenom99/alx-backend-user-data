@@ -22,8 +22,7 @@ if auth_type == 'auth':
 
 @app.before_request
 def before_request():
-    """Feltering user request
-    """
+    """Filtering user request"""
     global auth
     if auth is None:
         return
@@ -41,30 +40,24 @@ def before_request():
         abort(403)
 
 
-@app.errorhandler(401)
-def unauthorized(error) -> str:
-    """
-    unauthorised 401 error
-    """
-    return jsonify({"error": "Unauthorized"}), 401
-
-
 @app.errorhandler(404)
 def not_found(error) -> str:
-    """ Not found handler
-    """
+    """Not found handler"""
     return jsonify({"error": "Not found"}), 404
+
+
+@app.errorhandler(401)
+def unauthorized_handler(error) -> str:
+    """Unauthorized 401 error"""
+    return jsonify({"error": "Unauthorized"}), 401
 
 
 @app.errorhandler(403)
 def forbidden_data(error):
-    """
-    403 forbidden error handler
-    """
+    """403 forbidden error handler"""
     res = jsonify({"error": "Forbidden"})
     res.status_code = 403
     return res
-
 
 if __name__ == "__main__":
     host = getenv("API_HOST", "0.0.0.0")
