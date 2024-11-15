@@ -6,7 +6,7 @@ from flask import request
 from typing import List, TypeVar
 
 
-class Auth:
+class Auth():
     """
     AUTH implements Api authentication
 
@@ -27,9 +27,11 @@ class Auth:
         """
         Returns None
         """
-        if request and request.headers:
-            return request.headers.get('Authorization')
-        return None
+        if request is None:
+            return None
+        if 'Authorization' not in request.headers:
+            return None
+        return request.headers['Authorization']
 
     def current_user(self, request=None) -> TypeVar('User'):
         """
