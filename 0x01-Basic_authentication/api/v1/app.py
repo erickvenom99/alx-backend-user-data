@@ -42,9 +42,9 @@ def before_request():
 
 @app.errorhandler(404)
 def not_found(error) -> str:
-    """Not found handler"""
+    """ Not found handler
+    """
     return jsonify({"error": "Not found"}), 404
-
 
 @app.errorhandler(401)
 def unauthorized_handler(error) -> str:
@@ -58,6 +58,7 @@ def forbidden_data(error):
     res = jsonify({"error": "Forbidden"})
     res.status_code = 403
     return res
+
 
 if __name__ == "__main__":
     host = getenv("API_HOST", "0.0.0.0")
