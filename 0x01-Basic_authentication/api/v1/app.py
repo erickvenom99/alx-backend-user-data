@@ -27,13 +27,13 @@ def before_request():
     if auth is None:
         return
 
-    secure_paths = [
+    excluded_paths = [
         '/api/v1/status/',
         '/api/v1/unauthorized/',
         '/api/v1/forbidden/'
     ]
-    if request.path not in secure_paths and auth.require_auth(
-            request.path, secure_paths):
+
+    if auth.require_auth(request.path, excluded_paths):
         if auth.authorization_header(request) is None:
             abort(401)
         if auth.current_user(request) is None:
@@ -55,9 +55,7 @@ def unauthorized_handler(error) -> str:
 @app.errorhandler(403)
 def forbidden_data(error):
     """403 forbidden error handler"""
-    res = jsonify({"error": "Forbidden"})
-    res.status_code = 403
-    return res
+    return jsonify({"error": "Forbidden"}), 403
 
 
 if __name__ == "__main__":
