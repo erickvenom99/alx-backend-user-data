@@ -102,3 +102,35 @@ class BasicAuth(Auth):
         if not user_db.is_valid_password(user_pwd):
             return None
         return user_db
+
+    def current_user(self, request=None) -> TypeVar('User'):
+        """
+        Retrieves the User instance
+        Args:
+            request: The Flask request object.
+        Returns:
+            User: The User instance if authenticated, None otherwise.
+        """
+        if request is None:
+            return None
+
+        auth_user_header = request.headers.get('Authorization')
+        if auth_user_header is None:
+            return None
+
+        base64_user_auth = self.extract_base64_authorization_header(
+            auth_user_header)
+        if base64_user_auth is None:
+            return None
+
+        decoded_user_auth = self.decode_base64_authorization_header(
+            base64_user_auth)
+        if decoded_user_auth is None:
+            return None
+
+        user_email, user_pwd = self.extract_user_credentials(decoded_user_auth)
+        if user_email is None or user_pwd is None:
+            return None
+
+        instance_user = self.user_object_from_credentials(user_email, user_pwd)
+        return instance_user
