@@ -78,8 +78,8 @@ def profile():
         abort(403)
 
 
-@app.route('/reset_passwords', methods=['POST'], strict_slashes=False)
-def get_reset_password_token():  # Corrected function name
+@app.route('/reset_password', methods=["POST"], strict_slashes=False)
+def get_reset_password_token():
     """
     Generates a reset password token for the given email.
     """
