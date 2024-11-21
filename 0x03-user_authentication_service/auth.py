@@ -8,6 +8,7 @@ from db import DB
 from user import User
 from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.exc import InvalidRequestError
+import uuid
 
 
 def _hash_password(password: str) -> str:
@@ -17,6 +18,16 @@ def _hash_password(password: str) -> str:
     salt_pwd = bcrypt.gensalt()
     hashed_pwd = bcrypt.hashpw(password.encode('utf-8'), salt_pwd)
     return hashed_pwd
+
+
+def _generate_uuid():
+    """
+    Generate a UUID.
+
+    Returns:
+        str: The generated UUID.
+    """
+    return str(uuid.uuid4())
 
 
 class Auth:
