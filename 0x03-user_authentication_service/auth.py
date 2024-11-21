@@ -6,7 +6,16 @@
 import bcrypt
 from db import DB
 from user import User
-from sqlalchemy.exc import NoResultFound
+from sqlalchemy.orm.exc import NoResultFound
+
+
+def _hash_password(password: str) -> str:
+    """
+    Hash password
+    """
+    salt_pwd = bcrypt.gensalt()
+    hashed_pwd = bcrypt.hashpw(password.encode('utf-8'), salt_pwd)
+    return hashed_pwd
 
 
 class Auth:
@@ -30,17 +39,8 @@ class Auth:
         try:
             user = self._db.find_user_by(email=email)
         except NoResultFound:
-            hash_pass = self._hash_password(password)
+            hash_pass = _hash_password(password)
             new_user = self._db.add_user(email, hash_pass)
             return new_user
         else:
             raise ValueError(f"User {email} already exists")
-
-    @staticmethod
-    def _hash_password(password: str) -> str:
-        """
-        Hash password
-        """
-        salt_pwd = bcrypt.gensalt()
-        hashed_pwd = bcrypt.hashpw(password.encode('utf-8'), salt_pwd)
-        return hashed_pwd
