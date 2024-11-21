@@ -35,7 +35,8 @@ class Auth:
             return new_user
         else:
             raise ValueError(f"User {email} already exists")
-
+        
+    @staticmethod
     def _hash_password(password: str) -> str:
         """
         Hash password
