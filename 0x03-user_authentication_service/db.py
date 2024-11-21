@@ -5,11 +5,12 @@
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, Session
+
 from user import Base, User
 
 
 class DB:
-    """DB class"""  
+    """DB class"""
     def __init__(self) -> None:
         """Initialize a new DB instance"""
         self._engine = create_engine("sqlite:///a.db", echo=True)
@@ -26,8 +27,15 @@ class DB:
         return self.__session
 
     def add_user(self, email: str, hashed_password: str) -> User:
-        """Add a user to the database"""
-        user = User(email=email, hashed_password=hashed_password)
-        self._session.add(user)
+        """
+        Add a user to the database
+        Args:
+            email (str): new user email
+            password (str): password
+        Returns:
+            n_new: new user
+        """
+        n_user = User(email=email, hashed_password=hashed_password)
+        self._session.add(n_user)
         self._session.commit()
-        return user
+        return n_user
